@@ -3,21 +3,86 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cover Snap</title>
-<link rel="stylesheet" href="./style.css">
+<title>Vice Cover Studio — GTA-style cover art maker</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<main class="app">
-  <section class="controls">
-    <h1>Cover Snap</h1>
-    <p>A photo and a caption, made into a square cover.</p>
-    <label>Photo <input id="photo" type="file" accept="image/*"></label>
-    <label>Caption <input id="caption" type="text" maxlength="40" value="Sunset Heist"></label>
-    <button id="export" type="button">Export PNG 1080 x 1080</button>
-    <p id="status" role="status"></p>
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">VCS</span>
+    <span class="brand-name">Vice Cover <em>Studio</em></span>
+  </div>
+  <p class="brand-tag">Multi-panel poster covers, graded like a sunset over the bay.</p>
+  <button id="exportTop" class="btn btn-hot" type="button">Export PNG</button>
+</header>
+
+<main class="workspace">
+  <aside class="rail">
+    <section class="card">
+      <h2>1 · Photos</h2>
+      <p class="note">Your pictures never leave this machine. Pick one, then tap a panel to drop it in.</p>
+      <button id="uploadBtn" class="btn btn-wide" type="button">Add your photos</button>
+      <div id="tray" class="tray" aria-label="Photo tray"></div>
+      <div class="row">
+        <button id="fillAllBtn" class="btn" type="button">Fill every panel</button>
+        <button id="shuffleBtn" class="btn" type="button">Shuffle samples</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>2 · Layout</h2>
+      <div class="seg" id="layoutSeg" role="group" aria-label="Panel layout">
+        <button type="button" data-layout="poster">Poster</button>
+        <button type="button" data-layout="collage" class="on">Collage</button>
+        <button type="button" data-layout="strips">Strips</button>
+      </div>
+      <h2 class="gap">Colour grade</h2>
+      <div class="seg" id="gradeSeg" role="group" aria-label="Colour grade">
+        <button type="button" data-grade="sunset" class="on">Sunset</button>
+        <button type="button" data-grade="neon">Neon</button>
+        <button type="button" data-grade="noir">Noir</button>
+        <button type="button" data-grade="clean">Clean</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>3 · Cover words</h2>
+      <label class="field">Title
+        <input id="titleInput" type="text" maxlength="18" value="VICE HEAT">
+      </label>
+      <label class="field">Tagline
+        <input id="subInput" type="text" maxlength="42" value="One city. One score. No brakes.">
+      </label>
+      <label class="field">City line
+        <input id="cityInput" type="text" maxlength="30" value="SANDBOX CITY">
+      </label>
+    </section>
+
+    <section class="card">
+      <h2>4 · Panel &amp; size</h2>
+      <p class="note">Drag on the cover to move the selected panel's photo.</p>
+      <label class="field">Zoom <span id="zoomVal">100%</span>
+        <input id="zoomRange" type="range" min="100" max="300" value="100">
+      </label>
+      <div class="seg" id="sizeSeg" role="group" aria-label="Export size">
+        <button type="button" data-size="square">1080 × 1080</button>
+        <button type="button" data-size="portrait" class="on">1080 × 1350</button>
+        <button type="button" data-size="wide">1920 × 1080</button>
+      </div>
+      <button id="exportBtn" class="btn btn-hot btn-wide" type="button">Export cover as PNG</button>
+      <button id="resetBtn" class="btn btn-wide" type="button">Start over</button>
+    </section>
+  </aside>
+
+  <section class="stage">
+    <div class="stage-frame">
+      <canvas id="cover" width="1080" height="1350"></canvas>
+    </div>
+    <p class="hint" id="hintLine">Tip: the glowing outline marks the selected panel. Every sample scene was drawn in the studio — swap in your own shots any time.</p>
   </section>
-  <canvas id="cover" width="1080" height="1080" aria-label="The cover"></canvas>
 </main>
-<script type="module" src="./src/main.js"></script>
+
+<input id="fileInput" type="file" accept="image/*" multiple hidden>
+<script type="module" src="src/main.js"></script>
 </body>
 </html>
